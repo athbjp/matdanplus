@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MATDAN+ - A civic awareness application to educate citizens about voting and democratic participation.">
+    <title>MATDAN+ | Civic Awareness</title>
+    <style>
+        /* ================================
+           CSS Variables - Improved Color Scheme
+           ================================ */
+        :root {
+            /* Base Colors */
+            --color-background: #FFFFFF;
+            --color-surface: #F7F8FA;
+            --color-surface-hover: #EEF0F4;
+            --color-border: #E2E6EC;
+            --color-border-dark: #CBD0D8;
+            
+            /* Text Colors */
+            --color-text-primary: #1A1D23;
+            --color-text-secondary: #4A5264;
+            --color-text-tertiary: #6B7385;
+            --color-text-muted: #9CA3B0;
+            
+            /* Primary Accent - Deep Blue */
+            --color-primary: #1E3A5F;
+            --color-primary-light: #2A4A73;
+            --color-primary-dark: #152C4A;
+            --color-primary-bg: #E8EEF4;
+            
+            /* Secondary Accent - Saffron/Orange */
+            --color-secondary: #D97706;
+            --color-secondary-light: #F59E0B;
+            --color-secondary-dark: #B45309;
+            --color-secondary-bg: #FEF3E2;
+            
+            /* Tertiary - Teal */
+            --color-tertiary: #0F766E;
+            --color-tertiary-light: #14B8A6;
+            --color-tertiary-bg: #E6F7F5;
+            
+            /* Success */
+            --color-success: #166534;
+            --color-success-light: #22C55E;
+            --color-success-bg: #DCFCE7;
+            --color-success-border: #86EFAC;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #1E3A5F 0%, #2A4A73 50%, #1E3A5F 100%);
+            --gradient-warm: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+            --gradient-hero: linear-gradient(180deg, #F7F8FA 0%, #FFFFFF 100%);
+            
+            /* Typography */
+            --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
+            
+            /* Shadows */
+            --shadow-xs: 0 1px 2px rgba(30, 58, 95, 0.04);
+            --shadow-sm: 0 2px 4px rgba(30, 58, 95, 0.06);
+            --shadow-md: 0 4px 12px rgba(30, 58, 95, 0.08);
+            --shadow-lg: 0 8px 24px rgba(30, 58, 95, 0.12);
+            --shadow-xl: 0 16px 48px rgba(30, 58, 95, 0.16);
+            
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 50%;
+            
+            /* Transitions */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+            
+            /* Layout */
+            --header-height: 72px;
+        }
+
+        /* ================================
+           Reset & Base
+           ================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            background-color: var(--color-background);
+            min-height: 100vh;
+        }
+
+        /* ================================
+           Header & Navigation
+           ================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--color-border);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-tagline {
+            font-size: 11px;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--color-primary);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link {
+            padding: 10px 18px;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            background: var(--color-primary-bg);
+            font-weight: 600;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            background: var(--color-secondary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: var(--header-height);
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 16px;
+                border-bottom: 1px solid var(--color-border);
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 14px 20px;
+            }
+
+            .nav-link.active::after {
+                display: none;
+            }
+        }
+
+        /* ================================
+           Main Content Area
+           ================================ */
+        .main-content {
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .section {
+            display: none;
+            padding: 64px 24px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ================================
+           Landing Page
+           ================================ */
+        .landing-hero {
+            text-align: center;
+            padding: 48px 0 64px;
+            background: var(--gradient-hero);
+            margin: -64px -24px 0;
+            padding: 64px 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--color-primary);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-badge-icon {
+            font-size: 18px;
+        }
+
+        .hero-title {
+            font-size: clamp(34px, 5vw, 52px);
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 20px;
+            line-height: 1.15;
+        }
+
+        .hero-title span {
+            color: var(--color-secondary);
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 44px;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 72px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 28px;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-align: left;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-warm);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--color-primary-bg);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 26px;
+        }
+
+        .feature-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--color-text-tertiary);
+            line-height: 1.6;
+        }
+
+        /* ================================
+           Buttons
+           ================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 30px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 50px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary-bg);
+        }
+
+        .btn-accent {
+            background: var(--gradient-warm);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+        }
+
+        .btn-large {
+            padding: 16px 36px;
+            font-size: 16px;
+            min-height: 54px;
+        }
+
+        /* ================================
+           Expandable Sections / Accordion
+           ================================ */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 44px;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: white;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .accordion-item:hover {
+            border-color: var(--color-border-dark);
+        }
+
+        .accordion-item.open {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 22px 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .accordion-header:hover {
+            background: var(--color-surface);
+        }
+
+        .accordion-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .accordion-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-tertiary);
+            transition: var(--transition);
+            flex-shrink: 0;
+            background: var(--color-surface);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+        }
+
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+            color: white;
+            background: var(--color-secondary);
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 0 26px 26px;
+        }
+
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+
+        .accordion-body {
+            padding-top: 18px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .accordion-body h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin: 22px 0 12px;
+        }
+
+        .accordion-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .accordion-body p {
+            color: var(--color-text-secondary);
+            margin-bottom: 14px;
+            line-height: 1.75;
+        }
+
+        .accordion-body ul {
+            margin: 14px 0;
+            padding-left: 22px;
+        }
+
+        .accordion-body li {
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.65;
+        }
+
+        .accordion-body li strong {
+            color: var(--color-primary);
+        }
+
+        /* ================================
+           Step Cards
+           ================================ */
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 44px;
+        }
+
+        .step-card {
+            display: flex;
+            gap: 22px;
+            padding: 28px;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            transition: var(--transition);
+        }
+
+        .step-card:hover {
+            border-color: var(--color-secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-content h3 {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+        }
+
+        .step-content p {
+            color: var(--color-text-secondary);
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+
+        .step-content ul,
+        .step-content ol {
+            margin: 14px 0;
+            padding-left: 22px;
+        }
+
+        .step-content li {
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .step-content li strong {
+            color: var(--color-primary);
+        }
+
+        @media (max-width: 480px) {
+            .step-card {
+                flex-direction: column;
+                gap: 18px;
+            }
+        }
+
+        /* ================================
+           Government Cards
+           ================================ */
+        .gov-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 44px;
+        }
+
+        .gov-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .gov-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gov-card-header {
+            padding: 22px 28px;
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .gov-card-title {
+            font-size: 21px;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .gov-level-badge {
+            padding: 8px 16px;
+            background: var(--color-secondary-bg);
+            color: var(--color-secondary-dark);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gov-level-badge.local {
+            background: var(--color-tertiary-bg);
+            color: var(--color-tertiary);
+        }
+
+        .gov-level-badge.state {
+            background: var(--color-secondary-bg);
+            color: var(--color-secondary-dark);
+        }
+
+        .gov-level-badge.national {
+            background: var(--color-primary-bg);
+            color: var(--color-primary);
+        }
+
+        .gov-card-body {
+            padding: 28px;
+        }
+
+        .gov-card-body h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin: 22px 0 12px;
+        }
+
+        .gov-card-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .gov-card-body p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .gov-card-body ul {
+            margin: 12px 0;
+            padding-left: 22px;
+        }
+
+        .gov-card-body li {
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* ================================
+           Info Box
+           ================================ */
+        .info-box {
+            padding: 26px 28px;
+            background: var(--color-primary-bg);
+            border-left: 4px solid var(--color-primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 44px;
+        }
+
+        .info-box h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 14px;
+        }
+
+        .info-box p {
+            color: var(--color-text-secondary);
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+
+        .info-box ul {
+            margin: 14px 0 0;
+            padding-left: 22px;
+        }
+
+        .info-box li {
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+        }
+
+        /* ================================
+           Navigation Buttons
+           ================================ */
+        .section-nav {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-top: 36px;
+            border-top: 1px solid var(--color-border);
+            margin-top: 44px;
+        }
+
+        /* ================================
+           Pledge Section
+           ================================ */
+        .pledge-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pledge-box {
+            padding: 36px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .pledge-box::before {
+            content: '"';
+            position: absolute;
+            top: 16px;
+            left: 24px;
+            font-size: 64px;
+            color: var(--color-secondary);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .pledge-box h2 {
+            font-size: 21px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 18px;
+        }
+
+        .pledge-text {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            line-height: 1.85;
+            font-style: italic;
+        }
+
+        .pledge-form {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .form-input {
+            padding: 16px 20px;
+            font-family: inherit;
+            font-size: 16px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px var(--color-primary-bg);
+        }
+
+        .form-input.error {
+            border-color: #DC2626;
+        }
+
+        .form-error {
+            font-size: 13px;
+            color: #DC2626;
+            min-height: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .checkbox-group input {
+            width: 22px;
+            height: 22px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .checkbox-label {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        /* Pledge Success */
+        .pledge-success {
+            display: none;
+            text-align: center;
+            padding: 48px 36px;
+            background: var(--color-success-bg);
+            border: 2px solid var(--color-success-border);
+            border-radius: var(--radius-lg);
+        }
+
+        .pledge-success.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-success);
+            color: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 20px rgba(22, 101, 52, 0.25);
+        }
+
+        .success-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--color-success);
+            margin-bottom: 14px;
+        }
+
+        .success-message {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .success-date {
+            font-size: 14px;
+            color: var(--color-text-tertiary);
+            margin-bottom: 32px;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ================================
+           Certificate Section - IMPROVED
+           ================================ */
+        .no-pledge-notice {
+            text-align: center;
+            padding: 64px 44px;
+            background: var(--color-surface);
+            border: 2px dashed var(--color-border-dark);
+            border-radius: var(--radius-lg);
+        }
+
+        .no-pledge-notice p {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .certificate-wrapper {
+            display: none;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .certificate-wrapper.show {
+            display: block;
+        }
+
+        .certificate {
+            background: white;
+            border: 4px solid var(--color-primary);
+            padding: 8px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .certificate-inner {
+            border: 2px solid var(--color-secondary);
+            padding: 52px 44px;
+            background: linear-gradient(180deg, #FFFBF5 0%, #FFFFFF 50%, #FFFBF5 100%);
+            position: relative;
+        }
+
+        /* Decorative corners */
+        .certificate-inner::before,
+        .certificate-inner::after {
+            content: '✦';
+            position: absolute;
+            font-size: 24px;
+            color: var(--color-secondary);
+        }
+
+        .certificate-inner::before {
+            top: 20px;
+            left: 24px;
+        }
+
+        .certificate-inner::after {
+            top: 20px;
+            right: 24px;
+        }
+
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .certificate-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .certificate-logo-sub {
+            font-size: 11px;
+            color: var(--color-secondary);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .certificate-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gradient-warm);
+            margin: 0 auto 24px;
+            border-radius: 2px;
+        }
+
+        .certificate-main-title {
+            font-size: 30px;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .certificate-subtitle {
+            font-size: 14px;
+            color: var(--color-text-tertiary);
+            letter-spacing: 2px;
+        }
+
+        .certificate-body {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .certificate-declaration {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 18px;
+        }
+
+        .certificate-name {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--color-primary);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--color-primary);
+            display: inline-block;
+            min-width: 300px;
+            margin-bottom: 24px;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .certificate-statement {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.9;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .certificate-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 32px;
+            padding-top: 24px;
+        }
+
+        .certificate-date-block {
+            text-align: left;
+        }
+
+        .certificate-date-block h4 {
+            font-size: 11px;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .certificate-date-block p {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+
+        .certificate-seal {
+            width: 90px;
+            height: 90px;
+            border: 3px solid var(--color-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .certificate-seal-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 1px;
+        }
+
+        .certificate-seal-sub {
+            font-size: 7px;
+            color: var(--color-secondary);
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* Initiative credit on certificate */
+        .certificate-credit {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-border);
+            margin-top: 8px;
+        }
+
+        .certificate-credit p {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            letter-spacing: 1px;
+        }
+
+        .certificate-credit strong {
+            color: var(--color-text-tertiary);
+            font-weight: 600;
+        }
+
+        .certificate-disclaimer {
+            text-align: center;
+            font-size: 10px;
+            color: var(--color-text-muted);
+            font-style: italic;
+            margin-top: 16px;
+        }
+
+        .certificate-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 480px) {
+            .certificate-inner {
+                padding: 36px 24px;
+            }
+
+            .certificate-main-title {
+                font-size: 22px;
+                letter-spacing: 1px;
+            }
+
+            .certificate-name {
+                font-size: 24px;
+                min-width: auto;
+            }
+
+            .certificate-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 28px;
+            }
+
+            .certificate-date-block {
+                text-align: center;
+            }
+        }
+
+        /* ================================
+           About Section
+           ================================ */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+
+        .about-block {
+            padding: 28px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .about-block h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-block h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--color-secondary);
+            border-radius: 2px;
+        }
+
+        .about-block p {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .about-block ul {
+            padding-left: 22px;
+        }
+
+        .about-block li {
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* ================================
+           Footer - IMPROVED
+           ================================ */
+        .footer {
+            background: var(--color-primary);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .footer-tagline {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--color-secondary);
+            margin: 0 auto 28px;
+        }
+
+        .footer-credit {
+            margin-bottom: 24px;
+        }
+
+        .footer-credit-line {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 6px;
+        }
+
+        .footer-credit-name {
+            font-weight: 600;
+            color: var(--color-secondary-light);
+        }
+
+        .footer-disclaimer {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.7;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* ================================
+           Utility Classes
+           ================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* ================================
+           Print Styles
+           ================================ */
+        @media print {
+            .header, .footer, .section-nav, .certificate-actions, .no-pledge-notice {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-top: 0;
+            }
+
+            .section {
+                padding: 0;
+            }
+
+            .section-header {
+                display: none;
+            }
+
+            .certificate-wrapper {
+                display: block !important;
+            }
+
+            .certificate {
+                border-color: #000;
+                box-shadow: none;
+            }
+
+            .certificate-inner {
+                border-color: #666;
+            }
+
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">M+</div>
+                <div class="logo-text">
+                    <span class="logo-title">MATDAN+</span>
+                    <span class="logo-tagline">Civic Awareness</span>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="mainNav">
+                <a href="#" class="nav-link active" data-section="landing">Home</a>
+                <a href="#" class="nav-link" data-section="why-voting">Why Vote</a>
+                <a href="#" class="nav-link" data-section="how-voting">Process</a>
+                <a href="#" class="nav-link" data-section="government">Government</a>
+                <a href="#" class="nav-link" data-section="pledge">Pledge</a>
+                <a href="#" class="nav-link" data-section="about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Landing Section -->
+        <section id="landing" class="section active">
+            <div class="container">
+                <div class="landing-hero">
+                    <div class="hero-badge">
+                        <span class="hero-badge-icon">🗳️</span>
+                        <span>Civic Education Initiative</span>
+                    </div>
+                    
+                    <h1 class="hero-title">Understanding <span>Your Vote</span></h1>
+                    
+                    <p class="hero-description">
+                        Voting decides how your area and country are governed. Learn why your participation matters, 
+                        how the process works, and the role of elected representatives in shaping our future.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-large" data-navigate="why-voting">Start Learning</button>
+                        <button class="btn btn-accent btn-large" data-navigate="pledge">Take the Pledge</button>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📚</div>
+                            <h3 class="feature-title">Why Voting Matters</h3>
+                            <p class="feature-desc">Understand how your vote directly affects taxes, local services, and daily life decisions.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🗓️</div>
+                            <h3 class="feature-title">Voting Process</h3>
+                            <p class="feature-desc">A clear step-by-step guide explaining how elections work from start to finish.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🏛️</div>
+                            <h3 class="feature-title">Government Structure</h3>
+                            <p class="feature-desc">Learn about the roles of Corporators, MLAs, and MPs in governance.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">✋</div>
+                            <h3 class="feature-title">Make a Commitment</h3>
+                            <p class="feature-desc">Take a voluntary pledge for civic participation and receive your certificate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Voting Matters Section -->
+        <section id="why-voting" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Why Voting Matters</h1>
+                    <p class="section-subtitle">
+                        Every election determines who makes decisions about public resources, 
+                        community services, and the laws that affect your daily life.
+                    </p>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span class="accordion-title">How Voting Affects Taxes</span>
+                            <span class="accordion-icon">▼</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>When you pay taxes, that money goes to the government. Elected representatives decide how this money is spent in your community and country.</p>
+                                
+                                <h3>Where Tax Money Goes</h3>
+                                <ul>
+                                    <li><strong>Roads and Transport:</strong> Building and maintaining roads, bridges, and public transport systems</li>
+                                    <li><strong>Water and Sanitation:</strong> Clean water supply, drainage systems, and waste management services</li>
+                                    <li><strong>Schools:</strong> Government schools, teacher salaries, and educational programs</li>
+                                    <li><strong>Hospitals:</strong> Public health facilities, medicines, and healthcare workers</li>
+                                    <li><strong>Public Safety:</strong> Police, fire services, and emergency response teams</li>
+                                </ul>
+                                
+                                <h3>The Connection to Voting</h3>
+                                <p>The people you elect decide the priority of spending. One representative might focus on education, another on infrastructure. Your vote helps determine these priorities for your community.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span class="accordion-title">How Voting Affects Daily Life</span>
+                            <span class="accordion-icon">▼</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>Many things you experience every day are directly influenced by decisions made by your elected representatives.</p>
+                                
+                                <h3>Local Services</h3>
+                                <ul>
+                                    <li>Street lights in your neighborhood</li>
+                                    <li>Garbage collection schedule and cleanliness</li>
+                                    <li>Condition of local roads and footpaths</li>
+                                    <li>Parks, gardens, and public spaces</li>
+                                    <li>Local markets and their regulation</li>
+                                </ul>
+                                
+                                <h3>Rules and Laws</h3>
+                                <ul>
+                                    <li>Traffic rules and their enforcement</li>
+                                    <li>Business regulations and licensing</li>
+                                    <li>Environmental protection measures</li>
+                                    <li>Consumer protection laws</li>
+                                </ul>
+                                
+                                <h3>Development Priorities</h3>
+                                <p>Elected leaders decide which areas get developed first, what projects receive funding, and how resources are distributed across different communities.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span class="accordion-title">What Happens If You Do Not Vote</span>
+                            <span class="accordion-icon">▼</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>Elections happen whether you participate or not. Important decisions about your life are made regardless of your presence at the polling booth.</p>
+                                
+                                <h3>Decisions Continue Without You</h3>
+                                <p>When you choose not to vote, others make the choice for you. The elected representative will still make decisions about your taxes, your services, and your community—but without considering your voice.</p>
+                                
+                                <h3>Your Silence is Also a Choice</h3>
+                                <p>Not voting means accepting whatever outcome others decide. It does not mean staying neutral—it means letting others speak for you and determine your future.</p>
+                                
+                                <h3>Representation May Not Reflect Your Views</h3>
+                                <p>If people who share your concerns and values do not vote, representatives may focus primarily on the needs of those who do vote. Your priorities and concerns may receive less attention in policy decisions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-header">
+                            <span class="accordion-title">Why Every Vote Counts</span>
+                            <span class="accordion-icon">▼</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>Elections are often decided by surprisingly small differences. Individual votes combine to create significant outcomes that shape communities and nations.</p>
+                                
+                                <h3>Small Margins Decide Elections</h3>
+                                <p>Many important elections have been decided by just a few hundred or even a few dozen votes. In close contests, every single vote directly affects the final result.</p>
+                                
+                                <h3>Equal Value for All</h3>
+                                <p>In a democratic election, every citizen's vote has equal weight. A teacher's vote counts the same as a business owner's vote. A young voter's choice matters as much as a senior citizen's choice. This equality is the foundation of democracy.</p>
+                                
+                                <h3>Collective Impact</h3>
+                                <p>When you vote, you join millions of others in a collective decision. This combined action of individual citizens shapes the direction of governance for years to come.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="landing">← Home</button>
+                    <button class="btn btn-primary" data-navigate="how-voting">How Voting Works →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- How Voting Works Section -->
+        <section id="how-voting" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">How Voting Works</h1>
+                    <p class="section-subtitle">
+                        The voting process follows a structured procedure to ensure fairness and accuracy. 
+                        Here is what happens from the announcement of elections to the final results.
+                    </p>
+                </div>
+
+                <div class="steps-list">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Election Announcement</h3>
+                            <p>The Election Commission announces the election schedule. This includes:</p>
+                            <ul>
+                                <li>Date of voting</li>
+                                <li>Last date for candidate nominations</li>
+                                <li>Rules for campaigning</li>
+                                <li>Model code of conduct period</li>
+                            </ul>
+                            <p>This announcement is made public through newspapers, television, radio, and official government websites.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Who Can Vote (Eligibility)</h3>
+                            <p>To be eligible to vote, a citizen must meet the following criteria:</p>
+                            <ul>
+                                <li>Be a citizen of the country</li>
+                                <li>Be 18 years of age or older on the qualifying date</li>
+                                <li>Be registered as a voter in the electoral roll</li>
+                                <li>Not be disqualified under any law</li>
+                            </ul>
+                            <p>Voter registration can be done through the Election Commission's official process. A voter ID card is issued upon successful registration.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Voting Day Procedure</h3>
+                            <p>On the day of voting, follow these steps:</p>
+                            <ol>
+                                <li><strong>Go to your assigned polling booth</strong> — Based on your registered address</li>
+                                <li><strong>Carry valid identification</strong> — Voter ID card or approved alternative</li>
+                                <li><strong>Verification</strong> — Officials check your name in the voter list and verify your identity</li>
+                                <li><strong>Ink marking</strong> — Indelible ink is applied to your finger to prevent duplicate voting</li>
+                                <li><strong>Cast your vote</strong> — Enter the booth privately and make your choice</li>
+                                <li><strong>Exit</strong> — Leave the polling station after voting</li>
+                            </ol>
+                            <p>The entire process is completely private. No one can see or know who you voted for.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Vote Counting</h3>
+                            <p>After voting ends, votes are counted under strict supervision:</p>
+                            <ul>
+                                <li>Counting happens on a designated date announced beforehand</li>
+                                <li>Representatives from all candidates can observe the counting process</li>
+                                <li>Each vote is carefully counted and recorded</li>
+                                <li>Electronic voting machines are verified with paper trail samples</li>
+                                <li>Results are announced publicly after counting is complete</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Formation of Government</h3>
+                            <p>After results are officially declared:</p>
+                            <ul>
+                                <li>Winners take oath as elected representatives</li>
+                                <li>The group with majority support forms the government</li>
+                                <li>Leaders are chosen to head various departments and ministries</li>
+                                <li>The new government begins its term and starts functioning</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Why the Process is Secure</h3>
+                    <p>Multiple safeguards protect the integrity of every election:</p>
+                    <ul>
+                        <li>An independent Election Commission oversees the entire process</li>
+                        <li>Sealed machines and materials prevent tampering</li>
+                        <li>Multiple observers from different parties monitor each step</li>
+                        <li>Paper trail allows verification of electronic votes</li>
+                        <li>Strict laws punish any electoral misconduct</li>
+                    </ul>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="why-voting">← Why Voting Matters</button>
+                    <button class="btn btn-primary" data-navigate="government">Government Structure →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Government Structure Section -->
+        <section id="government" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Structure of Government</h1>
+                    <p class="section-subtitle">
+                        Different elected representatives handle different levels of governance. 
+                        Understanding their distinct roles helps you know who is responsible for what.
+                    </p>
+                </div>
+
+                <div class="gov-cards">
+                    <div class="gov-card">
+                        <div class="gov-card-header">
+                            <h2 class="gov-card-title">Corporator</h2>
+                            <span class="gov-level-badge local">Local Level</span>
+                        </div>
+                        <div class="gov-card-body">
+                            <h4>Area of Responsibility</h4>
+                            <p>A corporator represents a specific ward or area within a city or town. They are part of the Municipal Corporation or local governing body.</p>
+                            
+                            <h4>Key Responsibilities</h4>
+                            <ul>
+                                <li>Local road maintenance and streetlights</li>
+                                <li>Water supply in the ward</li>
+                                <li>Garbage collection and sanitation</li>
+                                <li>Local drainage and sewage systems</li>
+                                <li>Maintenance of local parks and community spaces</li>
+                            </ul>
+                            
+                            <h4>Why This Vote Matters</h4>
+                            <p>The corporator directly affects the condition of your immediate neighborhood. Everyday issues like potholes, water supply, and cleanliness fall under their responsibility.</p>
+                        </div>
+                    </div>
+
+                    <div class="gov-card">
+                        <div class="gov-card-header">
+                            <h2 class="gov-card-title">MLA (Member of Legislative Assembly)</h2>
+                            <span class="gov-level-badge state">State Level</span>
+                        </div>
+                        <div class="gov-card-body">
+                            <h4>Area of Responsibility</h4>
+                            <p>An MLA represents a constituency in the State Legislative Assembly. They participate in state-level law-making and governance decisions.</p>
+                            
+                            <h4>Key Responsibilities</h4>
+                            <ul>
+                                <li>State education policies and government schools</li>
+                                <li>State healthcare and public hospitals</li>
+                                <li>State roads and transport systems</li>
+                                <li>Agriculture and rural development</li>
+                                <li>Law and order (police administration)</li>
+                            </ul>
+                            
+                            <h4>Why This Vote Matters</h4>
+                            <p>State government decisions directly affect education quality, healthcare access, employment programs, and regional development in your area.</p>
+                        </div>
+                    </div>
+
+                    <div class="gov-card">
+                        <div class="gov-card-header">
+                            <h2 class="gov-card-title">MP (Member of Parliament)</h2>
+                            <span class="gov-level-badge national">National Level</span>
+                        </div>
+                        <div class="gov-card-body">
+                            <h4>Area of Responsibility</h4>
+                            <p>An MP represents a constituency in the national Parliament. They participate in making national laws and policies that affect the entire country.</p>
+                            
+                            <h4>Key Responsibilities</h4>
+                            <ul>
+                                <li>National defense and security</li>
+                                <li>Foreign policy and international relations</li>
+                                <li>National economic policies</li>
+                                <li>Central government schemes and programs</li>
+                                <li>Constitutional matters and national laws</li>
+                            </ul>
+                            
+                            <h4>Why This Vote Matters</h4>
+                            <p>MPs shape policies that affect the entire country—taxation, national security, economic direction, and fundamental rights of all citizens.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h3>Understanding the Connection</h3>
+                    <p>All three levels of government work together to serve citizens. For example, a new national highway (decided at MP level) connects to state roads (managed at MLA level) which connect to local streets (maintained at Corporator level). Voting at each level ensures your representation at every layer of governance.</p>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="how-voting">← How Voting Works</button>
+                    <button class="btn btn-primary" data-navigate="pledge">Take the Pledge →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pledge Section -->
+        <section id="pledge" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Voting Pledge</h1>
+                    <p class="section-subtitle">
+                        A voluntary commitment to participate in the democratic process. 
+                        This is a personal declaration of your civic responsibility.
+                    </p>
+                </div>
+
+                <div class="pledge-container">
+                    <!-- Pledge Form -->
+                    <div id="pledgeFormSection">
+                        <div class="pledge-box">
+                            <h2>Declaration of Commitment</h2>
+                            <p class="pledge-text">
+                                I understand that voting is a fundamental right and responsibility in a democracy. 
+                                I commit to participating in elections, making informed choices, and encouraging 
+                                others to exercise their right to vote. I recognize that my vote contributes to 
+                                the collective decision-making process that shapes our community and nation.
+                            </p>
+                        </div>
+
+                        <form id="pledgeForm" class="pledge-form">
+                            <div class="form-group">
+                                <label class="form-label" for="pledgeName">Your Full Name</label>
+                                <input type="text" id="pledgeName" class="form-input" placeholder="Enter your full name" required>
+                                <span class="form-error" id="nameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="pledgeAgree" required>
+                                    <label class="checkbox-label" for="pledgeAgree">I voluntarily agree to this commitment and pledge to participate in democratic elections</label>
+                                </div>
+                                <span class="form-error" id="agreeError"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Submit Pledge</button>
+                        </form>
+                    </div>
+
+                    <!-- Pledge Success -->
+                    <div id="pledgeSuccess" class="pledge-success">
+                        <div class="success-icon">✓</div>
+                        <h2 class="success-title">Pledge Recorded</h2>
+                        <p class="success-message">Thank you, <span id="successName"></span>.</p>
+                        <p class="success-message">Your commitment to civic participation has been recorded.</p>
+                        <p class="success-date">Pledge taken on: <span id="successDate"></span></p>
+                        <div class="success-actions">
+                            <button class="btn btn-primary" data-navigate="certificate">View Certificate</button>
+                            <button class="btn btn-secondary" id="resetPledge">Take New Pledge</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="government">← Government Structure</button>
+                    <button class="btn btn-primary" data-navigate="about">About MATDAN+ →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificate Section -->
+        <section id="certificate" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Certificate of Commitment</h1>
+                    <p class="section-subtitle">
+                        This certificate acknowledges your voluntary commitment to civic participation and democratic responsibility.
+                    </p>
+                </div>
+
+                <!-- No Pledge Notice -->
+                <div id="noPledgeNotice" class="no-pledge-notice">
+                    <p>You have not yet taken the voting pledge.</p>
+                    <button class="btn btn-primary" data-navigate="pledge">Take the Pledge</button>
+                </div>
+
+                <!-- Certificate -->
+                <div id="certificateWrapper" class="certificate-wrapper">
+                    <div class="certificate" id="certificateContent">
+                        <div class="certificate-inner">
+                            <div class="certificate-header">
+                                <div class="certificate-logo">MATDAN+</div>
+                                <div class="certificate-logo-sub">Civic Awareness Initiative</div>
+                                <div class="certificate-divider"></div>
+                                <h2 class="certificate-main-title">Certificate of Commitment</h2>
+                                <p class="certificate-subtitle">Civic Participation Declaration</p>
+                            </div>
+
+                            <div class="certificate-body">
+                                <p class="certificate-declaration">This is to certify that</p>
+                                <p class="certificate-name" id="certName"></p>
+                                <p class="certificate-statement">
+                                    has voluntarily pledged to participate in the democratic process, 
+                                    to exercise the right to vote responsibly, and to encourage 
+                                    civic awareness and participation in the community.
+                                </p>
+                            </div>
+
+                            <div class="certificate-footer">
+                                <div class="certificate-date-block">
+                                    <h4>Date of Commitment</h4>
+                                    <p id="certDate"></p>
+                                </div>
+                                <div class="certificate-seal">
+                                    <span class="certificate-seal-text">MATDAN+</span>
+                                    <span class="certificate-seal-sub">VERIFIED</span>
+                                </div>
+                            </div>
+
+                            <!-- Initiative Credit on Certificate -->
+                            <div class="certificate-credit">
+                                <p>An initiative by <strong>Atharva Deore</strong></p>
+                            </div>
+
+                            <p class="certificate-disclaimer">
+                                This certificate is a personal acknowledgment of civic commitment. 
+                                It is not an official government document.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="certificate-actions">
+                        <button class="btn btn-primary" id="printCertificate">🖨️ Print Certificate</button>
+                    </div>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="pledge">← Back to Pledge</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">About MATDAN+</h1>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-block">
+                        <h2>Purpose</h2>
+                        <p>
+                            MATDAN+ is a civic awareness application designed to provide clear, 
+                            neutral, and accessible information about voting and democratic participation. 
+                            It serves as an educational resource for citizens who want to understand 
+                            how elections work and why civic participation matters for everyone.
+                        </p>
+                    </div>
+
+                    <div class="about-block">
+                        <h2>Approach</h2>
+                        <p>
+                            This application presents factual information without promoting any 
+                            political party, candidate, or ideology. The focus is purely on the process 
+                            of voting, the structure of government, and the importance of informed 
+                            participation in a healthy democracy.
+                        </p>
+                    </div>
+
+                    <div class="about-block">
+                        <h2>Intended Audience</h2>
+                        <ul>
+                            <li>Students learning about civic processes and democracy</li>
+                            <li>First-time voters preparing for their first election experience</li>
+                            <li>Citizens seeking to understand government structure and roles</li>
+                            <li>Teachers and educators for classroom use and discussions</li>
+                            <li>Anyone interested in civic awareness and responsible citizenship</li>
+                        </ul>
+                    </div>
+
+                    <div class="about-block">
+                        <h2>Data and Privacy</h2>
+                        <p>
+                            This application stores pledge information only in your browser's 
+                            local storage. No data is transmitted to any server or shared with 
+                            any third party. Your information stays on your device only. You can clear 
+                            this data at any time through your browser settings.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section-nav">
+                    <button class="btn btn-secondary" data-navigate="landing">← Return to Home</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-brand">MATDAN+</p>
+            <p class="footer-tagline">Civic Awareness Application</p>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-credit">
+                <p class="footer-credit-line">An initiative by <span class="footer-credit-name">Atharva Deore</span></p>
+                <p class="footer-credit-line">Designed by <span class="footer-credit-name">Atharva Deore</span></p>
+            </div>
+            
+            <p class="footer-disclaimer">
+                This is an educational resource for civic awareness. 
+                It is not affiliated with any government body or political organization.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ================================
+        // MATDAN+ Application JavaScript
+        // ================================
+
+        (function() {
+            'use strict';
+
+            // Storage key
+            const STORAGE_KEY = 'matdan_pledge';
+
+            // DOM Elements
+            const navToggle = document.getElementById('navToggle');
+            const mainNav = document.getElementById('mainNav');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const navigateButtons = document.querySelectorAll('[data-navigate]');
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            // Pledge Elements
+            const pledgeForm = document.getElementById('pledgeForm');
+            const pledgeFormSection = document.getElementById('pledgeFormSection');
+            const pledgeSuccess = document.getElementById('pledgeSuccess');
+            const pledgeName = document.getElementById('pledgeName');
+            const pledgeAgree = document.getElementById('pledgeAgree');
+            const nameError = document.getElementById('nameError');
+            const agreeError = document.getElementById('agreeError');
+            const successName = document.getElementById('successName');
+            const successDate = document.getElementById('successDate');
+            const resetPledge = document.getElementById('resetPledge');
+
+            // Certificate Elements
+            const noPledgeNotice = document.getElementById('noPledgeNotice');
+            const certificateWrapper = document.getElementById('certificateWrapper');
+            const certName = document.getElementById('certName');
+            const certDate = document.getElementById('certDate');
+            const printCertificate = document.getElementById('printCertificate');
+
+            // ================================
+            // Navigation Functions
+            // ================================
+
+            function navigateTo(sectionId) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Show target section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Update nav links
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // Close mobile nav
+                mainNav.classList.remove('open');
+                navToggle.classList.remove('active');
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Update certificate section
+                if (sectionId === 'certificate') {
+                    updateCertificateView();
+                }
+
+                // Update pledge section
+                if (sectionId === 'pledge') {
+                    updatePledgeView();
+                }
+            }
+
+            // Mobile nav toggle
+            navToggle.addEventListener('click', function() {
+                navToggle.classList.toggle('active');
+                mainNav.classList.toggle('open');
+            });
+
+            // Nav links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo(this.dataset.section);
+                });
+            });
+
+            // Navigate buttons
+            navigateButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    navigateTo(this.dataset.navigate);
+                });
+            });
+
+            // ================================
+            // Accordion Functions
+            // ================================
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const item = this.parentElement;
+                    const isOpen = item.classList.contains('open');
+
+                    // Close all items
+                    document.querySelectorAll('.accordion-item').forEach(i => {
+                        i.classList.remove('open');
+                    });
+
+                    // Open clicked item if it was closed
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+
+            // ================================
+            // Pledge Functions
+            // ================================
+
+            function formatDate(date) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-IN', options);
+            }
+
+            function savePledge(name) {
+                const pledgeData = {
+                    name: name,
+                    date: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(pledgeData));
+                return pledgeData;
+            }
+
+            function getPledge() {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : null;
+            }
+
+            function deletePledge() {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+
+            function updatePledgeView() {
+                const pledge = getPledge();
+                
+                if (pledge) {
+                    pledgeFormSection.style.display = 'none';
+                    pledgeSuccess.classList.add('show');
+                    successName.textContent = pledge.name;
+                    successDate.textContent = formatDate(new Date(pledge.date));
+                } else {
+                    pledgeFormSection.style.display = 'block';
+                    pledgeSuccess.classList.remove('show');
+                    pledgeForm.reset();
+                }
+            }
+
+            function updateCertificateView() {
+                const pledge = getPledge();
+                
+                if (pledge) {
+                    noPledgeNotice.style.display = 'none';
+                    certificateWrapper.classList.add('show');
+                    certName.textContent = pledge.name;
+                    certDate.textContent = formatDate(new Date(pledge.date));
+                } else {
+                    noPledgeNotice.style.display = 'block';
+                    certificateWrapper.classList.remove('show');
+                }
+            }
+
+            // Pledge form submission
+            pledgeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Clear errors
+                nameError.textContent = '';
+                agreeError.textContent = '';
+                pledgeName.classList.remove('error');
+
+                // Validate
+                let valid = true;
+                const name = pledgeName.value.trim();
+
+                if (!name || name.length < 2) {
+                    nameError.textContent = 'Please enter your full name (at least 2 characters)';
+                    pledgeName.classList.add('error');
+                    valid = false;
+                }
+
+                if (!pledgeAgree.checked) {
+                    agreeError.textContent = 'Please agree to the commitment to continue';
+                    valid = false;
+                }
+
+                if (valid) {
+                    savePledge(name);
+                    updatePledgeView();
+                }
+            });
+
+            // Reset pledge
+            resetPledge.addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset your pledge? This will delete your current commitment.')) {
+                    deletePledge();
+                    updatePledgeView();
+                }
+            });
+
+            // ================================
+            // Certificate Functions
+            // ================================
+
+            printCertificate.addEventListener('click', function() {
+                window.print();
+            });
+
+            // ================================
+            // Initialize
+            // ================================
+
+            function init() {
+                updatePledgeView();
+                
+                // Close mobile nav when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!mainNav.contains(e.target) && !navToggle.contains(e.target)) {
+                        mainNav.classList.remove('open');
+                        navToggle.classList.remove('active');
+                    }
+                });
+
+                console.log('MATDAN+ initialized successfully');
+            }
+
+            // Run init when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
